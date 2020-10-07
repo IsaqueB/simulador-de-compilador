@@ -1,0 +1,1 @@
+BASTA MODIFICAR O ARQUIVO "arquivo.txt" E EXECUTAR O "analisador_sintatico.py"
