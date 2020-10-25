@@ -1,8 +1,4 @@
-import random
-
-arquivo = open('arquivo.txt','r')
-f = arquivo.read()
-arquivo.close()
+import first
 
 def identificador_tokens(texto):
     lista = []
@@ -124,6 +120,4 @@ def identificador_tokens(texto):
             estado = 1
             atual+=1
 
-    #for x in range(len(lista)):
-    #    print(lista[x])
     return lista

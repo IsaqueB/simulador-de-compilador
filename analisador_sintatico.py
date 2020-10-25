@@ -8,11 +8,12 @@ lista = analisador_lexico.identificador_tokens(f)
 #Os métodos sempre retornam a posição token final de sua análise
 
 def programa(text):
-    pos = sequencia_de_comandos(text,0)
+    comandos = []
+    pos,comandos = sequencia_de_comandos(text,0)
     if pos > 0:
         try:
             if (text[pos+1])["Valor do Atributo"] == "END":
-                return True
+                return True,comandos
             else:
                 return erro("ESPERADO 'END'")
         except IndexError:
@@ -23,17 +24,22 @@ def programa(text):
         return erro("ESPERADO SEQUENCIA DE COMANDOS")
 
 def sequencia_de_comandos(text,pos):
+    comandos = []
+    aux = 0
     try:
         new_pos_aux = 0
         new_pos = comando(text,pos-1)
+        comandos.append(dict({'Indice do comando:':aux,'Começa em:':new_pos_aux,'Termina em:':new_pos}))
         if new_pos > new_pos_aux:
             try:
                 while (text[new_pos+1])["Valor do Atributo"] == ';':
+                    aux += 1
                     new_pos_aux = new_pos+1
                     new_pos = comando(text,new_pos+1)
+                    comandos.append(dict({'Indice do comando:':aux,'Começa em:':new_pos_aux,'Termina em:':new_pos}))
             except IndexError:
                 return erro("TAMANHO ERRADO. ESPERADO 'END' APOS SEQUENCIA DE COMANDOS")
-            return new_pos
+            return new_pos,comandos
         else:
             return erro("ESPERADO COMANDO INICIAL EM SEQUENCIA DE COMANDOS")
     except IndexError:
@@ -313,6 +319,6 @@ def erro(texto):
     return -1
 
 
-a = programa(lista)
+a,comandos = programa(lista)
 if(a):
-    print("SUCESSO!")
+    print(comandos)
